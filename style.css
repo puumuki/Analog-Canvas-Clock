@@ -1,0 +1,15 @@
+body[orient="portrait"] {
+property: value;
+}
+body[orient="landscape"] {
+property: value;
+}
+
+body {	
+	margin: 0px;
+	padding: 0px;
+}
+
+canvas {
+	background: #ffffff;
+}
