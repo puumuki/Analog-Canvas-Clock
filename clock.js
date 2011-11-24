@@ -31,6 +31,10 @@ var Clock = {
         minute:0.0,
         seconds:0.0
     },
+    
+    accelemeterData : {
+        z:0, x:0, y:0
+    },
         
     backgroundObject : [],
 
@@ -57,7 +61,7 @@ var Clock = {
         var rectangleWidth = ctx.width / cols;
         var rectangleHeight = ctx.height / rows;
         
-        var colorVar = this.time.seconds / 2;
+        var colorVar = this.time.seconds / 3;
           
         for (var i=0;i<rows;i++){
             for (var j=0;j<cols;j++){
@@ -68,9 +72,7 @@ var Clock = {
                                          Math.floor(255-colorVar*j) + ',0)';
                 ctx.fillRect(j*rectangleWidth,i*rectangleHeight,rectangleWidth,rectangleHeight);
             }
-        }
-        
-        
+        }                
         
         $(this.backgroundObject).each( function(index, object) {
             object.draw( ctx );
@@ -78,7 +80,6 @@ var Clock = {
     },
 
     draw : function() {
-
         this.calculateCenterPosition();
         
         var ctx = this.options.canvas.getContext("2d");
@@ -88,6 +89,11 @@ var Clock = {
         ctx.fillRect( 0, 0, this.options.canvas.width, this.options.canvas.height );
         
         this.drawBackground(ctx);
+        this.drawClock(ctx);
+        this.drawAccelemeterData(ctx);
+    },
+
+    drawClock : function( ctx ) {
 
         //Here we draw the background dial
         ctx.fillStyle = this.options.dialColor;
@@ -207,6 +213,17 @@ var Clock = {
         ctx.fill();	
         ctx.closePath();
     },
+    
+    drawAccelemeterData : function(ctx) {
+        if( true ) {            
+            ctx.beginPath();
+            ctx.fillText( "Z: " + this.accelemeterData.z + " X " + 
+                                  this.accelemeterData.x + " Y " + 
+                                  this.accelemeterData.y  , 20, 20 );
+            ctx.fill();	
+            ctx.closePath();
+        }
+    },
 		
     update : function() {
         
@@ -232,5 +249,14 @@ var Clock = {
             bgObject.randomizeVelocity(5);
             this.backgroundObject.push(bgObject);
         }
+        
+                //Iphone accelometer
+        if( window.ondevicemotion ) {
+            window.ondevicemotion = this.accelemeterCallback;
+        }
+    },
+    
+    accelemeterCallback : function( event ) {
+        accelemeterData = event.accelerationIncludingGravity;
     }
 }
