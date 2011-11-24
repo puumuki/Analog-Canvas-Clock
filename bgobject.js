@@ -11,9 +11,10 @@ var BGO = function() {
     }
     
     function init( posX, posY, size ) {
+        
         options.posX = posX;
         options.posY = posY;
-        options.size = size;
+        options.size = Math.random() * size;
         options.initialPosition = {x:posX, y:posY};
         
         var red  = parseInt( Math.random() * 255, 10 );
@@ -24,7 +25,11 @@ var BGO = function() {
     }
     
     function resetPos( canvasWidth, canvasHeight ) {
-        if( options.posX > canvasWidth || options.posX < 0 ) {
+        
+        var diapeter = options.size;
+        
+        if( options.posX - diapeter > canvasWidth || options.posX + diapeter < 0 
+            || options.posY - diapeter > canvasHeight || options.posY + diapeter < 0) {
             options.posX = options.initialPosition.x;
             options.posY = options.initialPosition.y;
         }
