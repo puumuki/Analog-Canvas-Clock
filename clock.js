@@ -14,7 +14,7 @@ var Clock = {
         y: 240, 
         scale:1.0, 
         length:120, 
-        dialColor: "#82b1d7", 					
+        dialColor: 'rgba(130, 180, 255, 0.8)', 					
         pointerColor: "#466a86", 
         pointerLineWidth: 5,
         dialHourDots : "#ffffff",
@@ -22,6 +22,7 @@ var Clock = {
         minutePointerColor: "#000000",
         secondPointerColor: "#ffffff",
         canvas : null,
+        bgBallVelocity : 3,
         backgroundBallCount : 100,
         bgBallMaxDiameter : 20
     },
@@ -74,6 +75,10 @@ var Clock = {
             }
         }                
         
+
+    },
+    
+    drawBackgoundBalls : function(ctx) {
         $(this.backgroundObject).each( function(index, object) {
             object.draw( ctx );
         });
@@ -88,7 +93,8 @@ var Clock = {
         ctx.fillStyle = 'rgb(245,245,245)';
         ctx.fillRect( 0, 0, this.options.canvas.width, this.options.canvas.height );
         
-        this.drawBackground(ctx);
+        //this.drawBackground(ctx);
+        this.drawBackgoundBalls(ctx);
         this.drawClock(ctx);
         this.drawAccelemeterData(ctx);
     },
@@ -215,14 +221,14 @@ var Clock = {
     },
     
     drawAccelemeterData : function(ctx) {
-        if( true ) {            
+                   
             ctx.beginPath();
-            ctx.fillText( "Z: " + this.accelemeterData.z + " X " + 
-                                  this.accelemeterData.x + " Y " + 
-                                  this.accelemeterData.y  , 20, 20 );
+            ctx.fillText( "Z: " + this.accelemeterData.x, 20, 20 );
+            ctx.fillText( "X: " + this.accelemeterData.z, 20, 30 );
+            ctx.fillText( "Y: " + this.accelemeterData.y, 20, 40 );
             ctx.fill();	
             ctx.closePath();
-        }
+        
     },
 		
     update : function() {
@@ -232,6 +238,12 @@ var Clock = {
         this.time.hours = time.getHours();
         this.time.minute = time.getMinutes() + time.getSeconds() / 60;
         this.time.seconds = time.getSeconds() + time.getMilliseconds() / 1000;
+        
+        $(this.backgroundObject).each( function(index, object) {
+            object.update( Clock.options.canvas, 
+                           Clock.accelemeterData.x,
+                           Clock.accelemeterData.y );
+        });
     },
         
     init : function() {
@@ -246,17 +258,15 @@ var Clock = {
             bgObject.init(this.options.x, this.options.y, 
                           this.options.bgBallMaxDiameter);
                           
-            bgObject.randomizeVelocity(5);
+            bgObject.randomizeVelocity(this.options.bgBallVelocity);
+            
             this.backgroundObject.push(bgObject);
-        }
+        }        
         
-                //Iphone accelometer
-        if( window.ondevicemotion ) {
-            window.ondevicemotion = this.accelemeterCallback;
-        }
-    },
-    
-    accelemeterCallback : function( event ) {
-        accelemeterData = event.accelerationIncludingGravity;
+        window.ondevicemotion = function(event) {
+            Clock.accelemeterData.x = event.accelerationIncludingGravity.x * -1;
+            Clock.accelemeterData.y = event.accelerationIncludingGravity.y;
+            Clock.accelemeterData.z = event.accelerationIncludingGravity.z * -1;
+	}
     }
 }

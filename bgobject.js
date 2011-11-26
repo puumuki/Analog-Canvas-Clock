@@ -26,10 +26,10 @@ var BGO = function() {
     
     function resetPos( canvasWidth, canvasHeight ) {
         
-        var diapeter = options.size;
+        var diameter = options.size;
         
-        if( options.posX - diapeter > canvasWidth || options.posX + diapeter < 0 
-            || options.posY - diapeter > canvasHeight || options.posY + diapeter < 0) {
+        if( options.posX - diameter > canvasWidth || options.posX + diameter < 0 
+            || options.posY - diameter > canvasHeight || options.posY + diameter < 0) {
             options.posX = options.initialPosition.x;
             options.posY = options.initialPosition.y;
         }
@@ -38,11 +38,21 @@ var BGO = function() {
     function randomizeVelocity( scale ) {
         options.velX = Math.random() * scale - scale / 2;
         options.velY = Math.random() * scale - scale / 2;
-    }
+    }    
     
-    function update( canvas ) {
+    /**
+     * deltaX and deltaY are optional parameters that effects object movement
+     * like a gravitional force
+     */
+    function update( canvas, deltaX, deltaY ) {
         options.posX += options.velX;
         options.posY += options.velY;
+        
+        if( deltaX !== undefined && deltaY !== undefined ) {
+            options.posX += deltaX;
+            options.posY += deltaY;
+        }
+        
         resetPos(canvas.width, canvas.height);
     }
     
