@@ -60,22 +60,13 @@ var Clock = {
         var cols = 30;
         
         var rectangleWidth = ctx.width / cols;
-        var rectangleHeight = ctx.height / rows;
-        
-        var colorVar = this.time.seconds / 3;
+        var rectangleHeight = ctx.height / rows;    
           
         for (var i=0;i<rows;i++){
             for (var j=0;j<cols;j++){
-                
-                ctx.fillStyle = "#ff0000";
-                
-                ctx.fillStyle = 'rgb(' + Math.floor(255-colorVar*i) + ',' + 
-                                         Math.floor(255-colorVar*j) + ',0)';
-                ctx.fillRect(j*rectangleWidth,i*rectangleHeight,rectangleWidth,rectangleHeight);
+                                
             }
-        }                
-        
-
+        }            
     },
     
     drawBackgoundBalls : function(ctx) {
@@ -93,7 +84,7 @@ var Clock = {
         ctx.fillStyle = 'rgb(245,245,245)';
         ctx.fillRect( 0, 0, this.options.canvas.width, this.options.canvas.height );
         
-        //this.drawBackground(ctx);
+        this.drawBackground(ctx);
         this.drawBackgoundBalls(ctx);
         this.drawClock(ctx);
         this.drawAccelemeterData(ctx);
@@ -221,14 +212,16 @@ var Clock = {
     },
     
     drawAccelemeterData : function(ctx) {
-                   
+        
+        //IECanvas don't support drawing text so...
+        if( ctx.fillText != undefined ) {           
             ctx.beginPath();
             ctx.fillText( "Z: " + this.accelemeterData.x, 20, 20 );
             ctx.fillText( "X: " + this.accelemeterData.z, 20, 30 );
             ctx.fillText( "Y: " + this.accelemeterData.y, 20, 40 );
             ctx.fill();	
             ctx.closePath();
-        
+        }        
     },
 		
     update : function() {
@@ -247,7 +240,7 @@ var Clock = {
     },
         
     init : function() {
-        
+          
         this.options.canvas = document.getElementById("canvas");
         
         this.update();
@@ -268,5 +261,7 @@ var Clock = {
             Clock.accelemeterData.y = event.accelerationIncludingGravity.y;
             Clock.accelemeterData.z = event.accelerationIncludingGravity.z * -1;
 	}
+        
+     
     }
 }

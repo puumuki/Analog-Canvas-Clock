@@ -6,33 +6,33 @@
         <meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable=no" />  
         <meta name="apple-mobile-web-app-capable" content="yes" /> 
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
+        <!--[if IE]><script src="excanvas.compiled.js"></script><![endif]-->
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-        <script type="text/javascript" src="animation.js"></script>        
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>        
         <script type="text/javascript" src="clock.js"></script>
         <script type="text/javascript" src="formbuilder.js"></script>        
         <script type="text/javascript" src="bgobject.js"></script>
+        <script type="text/javascript" src="init.js"></script>                
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <div id="canvasdiv">
-            <canvas width="380" height="480" id="canvas"></canvas>
+            <canvas width="380" height="480" id="canvas">
+                Sorry, your browser doesn't support the canvas element.
+            </canvas>
             <div id="sliders">
                 <div id="sliderX" />
                 <br />
                 <div id="sliderY" />
             </div>
         </div>
-        <form action="" id="clock-form"></form>        
+        <form action="" id="clock-form"></form>
+        <script type="application/javascript">
+        
+
+        </script>
     </body>
 
-    <script type="application/javascript">
-        $("body").ready( function() {
-            Clock.init();
-            FormBuilder.buildSliders();
-            Clock.draw();
-            animate();            
-        });
-    </script>
+
 </html>
