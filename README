@@ -1,8 +1,6 @@
 Analog Canvas Clock
 ===================
-Uses the most leading edge web technics to so you the time. It draws a analog clock dial front of you eys. By using
-your mobile phone gyroscopes it takes the values and crush them to bits, and that affects to circles on the background
-so that they looks like they are walling.. or something.
+Uses the most leading edge web technics to so you the time. It draws a analog clock dial front of you eys. By using your mobile phone gyroscopes it takes the values and crush them to bits, and that affects to circles on the background so that they looks like they are walling.. or something.
 
 Work almost any platform.. iPhone, Android, PC, iOS or Linux where is the browser there is the mighty Analog Canvas Clock.
 
