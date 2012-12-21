@@ -1,4 +1,13 @@
-var BGO = function() {
+AnalogCanvasClock = {};
+
+/**
+ * Create ball that flyes around the canvas background.
+ *
+ * @class BackgroundObject
+ * @constructor
+ */
+AnalogCanvasClock.BackgroundObject = (function() {
+return function() {
     
     var options = {
         initialPosition : {x:0,y:0},
@@ -8,7 +17,7 @@ var BGO = function() {
         velY: 0,
         size: 10, 
         color : ""
-    }
+    };
     
     function init( posX, posY, size ) {
         
@@ -76,5 +85,6 @@ var BGO = function() {
         draw:draw,
         update:update,
         randomizeVelocity:randomizeVelocity
-    }
-};
+    };
+}
+}());

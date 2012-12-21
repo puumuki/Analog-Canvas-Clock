@@ -7,13 +7,14 @@
 *
 * By Teemu Puukko - 2011 
 */
-var Clock = { 	 	
+AnalogCanvasClock.Clock = (function(BGO) {
+return {
 
     options : {
-        x:190,
-        y: 240, 
-        scale:1.0, 
-        length:120, 
+        x:190,//Center position X
+        y: 240,//Center position Y
+        scale:1.0,//Scale factor
+        length:120,
         dialColor: 'rgba(130, 180, 255, 0.8)', 					
         pointerColor: "#466a86", 
         pointerLineWidth: 5,
@@ -225,7 +226,8 @@ var Clock = {
     },
 		
     update : function() {
-        
+
+        var that = this;
         var time = new Date();
         
         this.time.hours = time.getHours();
@@ -233,9 +235,9 @@ var Clock = {
         this.time.seconds = time.getSeconds() + time.getMilliseconds() / 1000;
         
         $(this.backgroundObject).each( function(index, object) {
-            object.update( Clock.options.canvas, 
-                           Clock.accelemeterData.x,
-                           Clock.accelemeterData.y );
+            object.update( that.options.canvas,
+                           that.accelemeterData.x,
+                           that.accelemeterData.y );
         });
     },
         
@@ -260,8 +262,7 @@ var Clock = {
             Clock.accelemeterData.x = event.accelerationIncludingGravity.x * -1;
             Clock.accelemeterData.y = event.accelerationIncludingGravity.y;
             Clock.accelemeterData.z = event.accelerationIncludingGravity.z * -1;
-	}
-        
-     
+    	}
     }
 }
+}(AnalogCanvasClock.BackgroundObject));
