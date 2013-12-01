@@ -23,10 +23,23 @@
         AnalogCanvasClock.Clock.update();
         AnalogCanvasClock.Clock.draw();
     };
+    
+    function resizeCanvas() {
+      var canvas = AnalogCanvasClock.Clock.getCanvasElement();
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      AnalogCanvasClock.Clock.updateCenterPosition();
+      AnalogCanvasClock.Clock.draw();              
+    }
+    
+    window.addEventListener('resize', resizeCanvas, false);
 
     $("body").ready( function() {
         AnalogCanvasClock.Clock.init();
         AnalogCanvasClock.Clock.draw();
         animate();
+        resizeCanvas();
     });
+
+
 }());

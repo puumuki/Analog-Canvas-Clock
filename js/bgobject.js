@@ -32,6 +32,11 @@ return function() {
         
         options.color = "rgba(" +red + ", "+green+", " +blue+  ", 1)";
     }
+
+    function resetInitialPosition( x, y ) {
+        options.initialPosition.x = x;
+        options.initialPosition.y = y;
+    }
     
     function resetPos( canvasWidth, canvasHeight ) {
         
@@ -84,7 +89,8 @@ return function() {
         init:init, 
         draw:draw,
         update:update,
-        randomizeVelocity:randomizeVelocity
+        randomizeVelocity:randomizeVelocity,
+        resetInitialPosition:resetInitialPosition
     };
 }
 }());

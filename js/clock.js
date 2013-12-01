@@ -6,11 +6,14 @@
 * Source code is free for use, use it how you like.. I don't really care. <(^^)>
 *
 * By Teemu Puukko - 2011 
+* 
+* Fixed Accelemetor API usage 2013-12-01
 */
 AnalogCanvasClock.Clock = (function(BGO) {
 return {
 
     options : {
+        canvasElementID : "canvas",
         x:190,//Center position X
         y: 240,//Center position Y
         scale:1.0,//Scale factor
@@ -48,27 +51,22 @@ return {
         this.time.minute = minutes;
     },
 
-    calculateCenterPosition : function() {
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext("2d");
-        ctx.width = $(canvas).width();
-        ctx.height = $(canvas).height();
+    getCanvasElement : function() {
+        return document.getElementById(this.options.canvasElementID);
     },
 
-    drawBackground : function( ctx ) {
-        
-        var rows = 20;
-        var cols = 30;
-        
-        var rectangleWidth = ctx.width / cols;
-        var rectangleHeight = ctx.height / rows;    
-          
-        for (var i=0;i<rows;i++){
-            for (var j=0;j<cols;j++){
-                                
-            }
-        }            
+    updateCenterPosition : function() {        
+        var that = this;
+        this.options.x = window.innerWidth / 2;
+        this.options.y = window.innerHeight / 2;
+        this.options.scale = window.innerHeight / 480;
+
+        $(this.backgroundObject).each( function(index, object) {
+            object.resetInitialPosition(that.options.x, that.options.y);
+        });       
     },
+
+    drawBackground : function( ctx ) {},
     
     drawBackgoundBalls : function(ctx) {
         $(this.backgroundObject).each( function(index, object) {
@@ -76,9 +74,7 @@ return {
         });
     },
 
-    draw : function() {
-        this.calculateCenterPosition();
-        
+    draw : function() {       
         var ctx = this.options.canvas.getContext("2d");
         
         //Clear the canvas
@@ -226,7 +222,7 @@ return {
     },
 		
     update : function() {
-
+        
         var that = this;
         var time = new Date();
         
@@ -260,14 +256,17 @@ return {
         
         var that = this;
 
+        //Init accelemetor events
         if(window.DeviceMotionEvent) {
             function accelerometerUpdate(event) {
                 that.accelemeterData.x = event.accelerationIncludingGravity.x * -1;
                 that.accelemeterData.y = event.accelerationIncludingGravity.y;
                 that.accelemeterData.z = event.accelerationIncludingGravity.z * -1;                
-            }              
+            }               
             window.addEventListener("devicemotion", accelerometerUpdate, true);
         }
+
+        this.updateCenterPosition();
     }
 }
 }(AnalogCanvasClock.BackgroundObject));
