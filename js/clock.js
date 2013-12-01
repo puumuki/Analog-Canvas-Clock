@@ -240,7 +240,7 @@ return {
                            that.accelemeterData.y );
         });
     },
-        
+
     init : function() {
           
         this.options.canvas = document.getElementById("canvas");
@@ -258,11 +258,16 @@ return {
             this.backgroundObject.push(bgObject);
         }        
         
-        window.ondevicemotion = function(event) {
-            Clock.accelemeterData.x = event.accelerationIncludingGravity.x * -1;
-            Clock.accelemeterData.y = event.accelerationIncludingGravity.y;
-            Clock.accelemeterData.z = event.accelerationIncludingGravity.z * -1;
-    	}
+        var that = this;
+
+        if(window.DeviceMotionEvent) {
+            function accelerometerUpdate(event) {
+                that.accelemeterData.x = event.accelerationIncludingGravity.x * -1;
+                that.accelemeterData.y = event.accelerationIncludingGravity.y;
+                that.accelemeterData.z = event.accelerationIncludingGravity.z * -1;                
+            }              
+            window.addEventListener("devicemotion", accelerometerUpdate, true);
+        }
     }
 }
 }(AnalogCanvasClock.BackgroundObject));
